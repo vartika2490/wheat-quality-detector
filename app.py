@@ -421,7 +421,13 @@ CLASS_INFO = {
 # ── MODEL ───────────────────────────────────────────────────
 @st.cache_resource
 def load_model():
-    MODEL_PATH  = r"E:\Wheat Detection Model\models\final_wheat_model.pth"
+    import os
+    import gdown
+    MODEL_PATH = "final_wheat_model.pth"
+    if not os.path.exists(MODEL_PATH):
+        file_id = "1i5rOIpBNjeXc_GW3C2sTroh8g5eJBbKJ"
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, MODEL_PATH, quiet=False, fuzzy=True)
     device      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     checkpoint  = torch.load(MODEL_PATH, map_location=device)
     class_names = checkpoint["class_names"]
